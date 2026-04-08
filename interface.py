@@ -161,7 +161,7 @@ class FreteComparadorModerno(TkinterDnD.Tk):
         
         self.html_btn = ctk.CTkButton(
             actions_frame,
-            text="🌐 Abrir HTML",
+            text="🌐 Abrir Página",
             command=self.abrir_html,
             height=45,
             font=ctk.CTkFont(size=15, weight="bold"),
@@ -173,6 +173,7 @@ class FreteComparadorModerno(TkinterDnD.Tk):
         )
         self.html_btn.grid(row=0, column=1, padx=5, sticky="ew")
         
+        """
         # Frame de logs
         logs_frame = ctk.CTkFrame(content_frame, corner_radius=10, fg_color="#2d2d2d")
         logs_frame.grid(row=4, column=0, sticky="nsew", padx=20, pady=(0, 20))
@@ -213,7 +214,8 @@ class FreteComparadorModerno(TkinterDnD.Tk):
         scrollbar = ctk.CTkScrollbar(logs_frame, command=self.log_text.yview)
         scrollbar.pack(side="right", fill="y", padx=(0, 10), pady=(0, 10))
         self.log_text.config(yscrollcommand=scrollbar.set)
-        
+        """
+
     def criar_card_status(self, parent, titulo, coluna):
         """Criar card de status moderno com fundo escuro"""
         card = ctk.CTkFrame(parent, corner_radius=10, border_width=1, border_color="#3b8ed0", fg_color="#2d2d2d")
@@ -318,13 +320,13 @@ class FreteComparadorModerno(TkinterDnD.Tk):
         tag = tag_map.get(tipo, "info")
         
         # Inserir timestamp (cor neutra)
-        self.log_text.insert("end", f"[{timestamp}] ", "info")
+        #self.log_text.insert("end", f"[{timestamp}] ", "info")
         
         # Inserir mensagem com a cor específica
-        self.log_text.insert("end", f"{mensagem}\n", tag)
+        #self.log_text.insert("end", f"{mensagem}\n", tag)
         
         # Rolar para o final
-        self.log_text.see("end")
+        #self.log_text.see("end")
         self.update_idletasks()
     
     def atualizar_progresso(self, valor, maximo=4):
@@ -399,7 +401,7 @@ class FreteComparadorModerno(TkinterDnD.Tk):
             return
         
         # Limpar logs
-        self.log_text.delete("1.0", "end")
+        #self.log_text.delete("1.0", "end")
         
         # Resetar status
         for card in [self.card_correios, self.card_loggi, self.card_jt]:

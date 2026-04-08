@@ -155,32 +155,37 @@ def calcular_jt(page, origem, destino, altura, largura, comprimento, peso, valor
 
 def calcular_todos(origem, destino, altura, largura, comprimento, peso, valor):
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=False)
+        browser = p.chromium.launch(
+            headless=False,
+            args=["--start-maximized"]
+        )
+
+        context = browser.new_context(no_viewport=True)
 
         resultados = {}
 
         # Correios
-        page = browser.new_page()
+        page = context.new_page()
         resultados["correios"] = calcular_correios(
             page, origem, destino, altura, largura, comprimento
         )
         page.close()
 
         # Loggi
-        page = browser.new_page()
+        page = context.new_page()
         resultados["loggi"] = calcular_loggi(
             page, origem, destino, altura, largura, comprimento, peso, valor
         )
         page.close()
 
         # J&T
-        page = browser.new_page()
+        page = context.new_page()
         resultados["jt"] = calcular_jt(
             page, origem, destino, altura, largura , comprimento, peso, valor
         )
         page.close()
 
-        browser.close()
+        context.close()
 
         return resultados
 
@@ -783,4 +788,3 @@ if __name__ == "__main__":
     print(resultados_jt)
 
     gerar_planilha_final(resultados_correios, resultados_loggi, resultados_jt)
-
