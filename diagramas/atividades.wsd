@@ -2,36 +2,16 @@
 start
 
 :Iniciar automação;
-:Buscar pedidos (CEP, peso, dimensões);
+:Buscar pedidos (CEP, peso, dimensões, valor);
 
-:Validar CEP de todos os pedidos;
-if (Há CEPs inválidos?) then (Sim)
-  :Registrar erros na planilha (CEP inválido);
-endif
-
-partition "Correios" {
-    :Consultar Correios para todos os pedidos válidos;
+repeat
+    :Processar transportadora (Correios / Loggi / J&T);
+    :Consultar frete para todos os pedidos;
     if (Alguma falha?) then (Sim)
-        :Registrar erros Correios;
+        :Registrar erros (incluindo CEP inválido);
     endif
-    :Salvar valores + prazos Correios;
-}
-
-partition "Loggi" {
-    :Consultar Loggi para todos os pedidos válidos;
-    if (Alguma falha?) then (Sim)
-        :Registrar erros Loggi;
-    endif
-    :Salvar valores + prazos Loggi;
-}
-
-partition "J&T" {
-    :Consultar J&T para todos os pedidos válidos;
-    if (Alguma falha?) then (Sim)
-        :Registrar erros J&T;
-    endif
-    :Salvar valores + prazos J&T;
-}
+    :Salvar valores + prazos;
+repeat while (Existem transportadoras não processadas?)
 
 :Consolidar resultados de todas as transportadoras;
 :Registrar na planilha final;
